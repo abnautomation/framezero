@@ -8,6 +8,7 @@ import { Menu, X, ChevronDown, Sun, Moon, MessageCircle } from "lucide-react";
 import { siteConfig, navLinks } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { useTheme } from "./ThemeProvider";
+import Logo from "@/components/ui/Logo";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -49,11 +50,8 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
-          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--color-indigo)] to-[var(--color-violet)] flex items-center justify-center text-white text-sm font-black">
-            FZ
-          </span>
-          <span className="hidden sm:block">{siteConfig.BRAND_NAME}</span>
+        <Link href="/" aria-label={`${siteConfig.BRAND_NAME} home`} className="group">
+          <Logo />
         </Link>
 
         {/* Desktop Nav */}

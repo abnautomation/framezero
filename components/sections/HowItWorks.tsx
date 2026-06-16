@@ -1,96 +1,79 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Lightbulb, Wand2, Video } from "lucide-react";
+import { Lightbulb, Smile, Mountain, Clapperboard, Film, ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { staggerContainer, fadeUp } from "@/lib/motion";
 
-const steps = [
-  {
-    icon: <Lightbulb size={24} />,
-    number: 1,
-    title: "Start with your idea",
-    description:
-      "Every AI animation starts as a simple idea — a character, a story, a concept. In plain words, just like you'd describe it to a friend.",
-    color: "var(--color-indigo)",
-  },
-  {
-    icon: <Wand2 size={24} />,
-    number: 2,
-    title: "AI tools bring it to life",
-    description:
-      "Using tools like image generators, video AI, and voice synthesis, your idea is transformed into real visuals, motion, and sound.",
-    color: "var(--color-violet)",
-  },
-  {
-    icon: <Video size={24} />,
-    number: 3,
-    title: "Polish and publish",
-    description:
-      "A final edit pass, some music, and your animation is ready to share. From idea to published video — often in one session.",
-    color: "var(--color-sky)",
-  },
+const flow = [
+  { icon: <Lightbulb size={22} />, label: "Idea", note: "A spark in plain words", grad: "linear-gradient(135deg,#ff9e4f,#ffc56f)" },
+  { icon: <Smile size={22} />, label: "Character", note: "AI brings it to life", grad: "linear-gradient(135deg,#ff4d7d,#ff9e4f)" },
+  { icon: <Mountain size={22} />, label: "Scene", note: "Build the world", grad: "linear-gradient(135deg,#9b5cff,#ff4d7d)" },
+  { icon: <Clapperboard size={22} />, label: "Animation", note: "Add motion & voice", grad: "linear-gradient(135deg,#37c6ff,#9b5cff)" },
+  { icon: <Film size={22} />, label: "Finished film", note: "Ready to publish", grad: "linear-gradient(135deg,#2fd4c4,#37c6ff)" },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="section-py px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="section-py px-4 sm:px-6 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto">
         <SectionHeading
-          eyebrow="The process"
-          title="How AI animation actually works"
-          subtitle="In three simple steps — no technical knowledge required."
+          eyebrow="The transformation"
+          title="Watch an idea become a <span class='gradient-text'>finished film</span>"
+          subtitle="Five steps. The same pipeline a studio uses — minus the studio."
         />
 
-        <motion.div
-          variants={staggerContainer(0.12)}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5 relative"
-        >
-          {/* Connecting line (desktop) */}
-          <div className="hidden md:block absolute top-12 left-[calc(16.67%+24px)] right-[calc(16.67%+24px)] h-px bg-gradient-to-r from-[var(--color-indigo)] via-[var(--color-violet)] to-[var(--color-sky)] opacity-30" />
-
-          {steps.map((step) => (
-            <motion.div
-              key={step.number}
-              variants={fadeUp}
-              className="relative flex flex-col items-center text-center gap-5"
-            >
-              <div className="relative">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-[0_4px_20px_rgba(91,91,214,0.3)] z-10 relative"
-                  style={{
-                    background: `linear-gradient(135deg, ${step.color}, var(--color-violet))`,
-                  }}
+        {/* Flow */}
+        <div className="relative flex flex-col md:flex-row items-stretch justify-between gap-4 md:gap-0">
+          {flow.map((step, i) => (
+            <div key={step.label} className="flex md:flex-col items-center md:flex-1 gap-4 md:gap-0">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: i * 0.18, type: "spring", stiffness: 180, damping: 14 }}
+                whileHover={{ y: -8, scale: 1.05 }}
+                className="relative flex flex-col items-center text-center md:px-2"
+              >
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-[0_8px_30px_rgba(255,77,125,0.3)] mb-3"
+                  style={{ background: step.grad }}
                 >
                   {step.icon}
-                </div>
-                <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[var(--color-surface-1)] border-2 border-[var(--color-glass-border)] flex items-center justify-center text-xs font-bold text-[var(--color-text-tertiary)]">
-                  {step.number}
-                </div>
-              </div>
-              <div>
-                <h3 className="font-bold text-lg mb-2">{step.title}</h3>
-                <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed max-w-xs mx-auto">
-                  {step.description}
-                </p>
-              </div>
-            </motion.div>
+                  <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] flex items-center justify-center text-[11px] font-bold text-[var(--color-text-secondary)]">
+                    {i + 1}
+                  </span>
+                </motion.div>
+                <p className="font-bold text-sm">{step.label}</p>
+                <p className="text-xs text-[var(--color-text-tertiary)] max-w-[120px]">{step.note}</p>
+              </motion.div>
+
+              {/* connector arrow */}
+              {i < flow.length - 1 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.18 + 0.1 }}
+                  className="md:flex-1 md:self-start md:mt-8 flex items-center justify-center text-[var(--color-text-tertiary)]"
+                >
+                  <ArrowRight size={18} className="rotate-90 md:rotate-0" />
+                </motion.div>
+              )}
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-10 text-center text-sm text-[var(--color-text-tertiary)]"
+          className="mt-14 text-center text-sm text-[var(--color-text-tertiary)]"
         >
-          Want to see this in detail?{" "}
-          <a href="/workflow" className="text-[var(--color-indigo)] font-medium hover:underline">
-            See the full workflow →
+          Want the full breakdown with the exact tools?{" "}
+          <a href="/workflow" className="text-[var(--color-coral)] font-semibold hover:underline">
+            See the complete workflow →
           </a>
         </motion.p>
       </div>

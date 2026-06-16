@@ -19,9 +19,9 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-r from-[var(--color-indigo)] to-[var(--color-violet)] text-white shadow-[0_4px_16px_rgba(91,91,214,0.35)] hover:shadow-[0_6px_24px_rgba(91,91,214,0.5)] hover:-translate-y-0.5",
+    "text-white shadow-[0_8px_28px_rgba(255,77,125,0.4)] hover:shadow-[0_12px_38px_rgba(255,77,125,0.55)] hover:-translate-y-0.5 [background:var(--gradient-primary)] [background-size:160%_auto] hover:[background-position:right_center] [transition:background-position_0.5s_var(--ease-cine),transform_0.2s,box-shadow_0.3s]",
   secondary:
-    "border border-[var(--color-indigo)] text-[var(--color-indigo)] bg-transparent hover:bg-[rgba(91,91,214,0.06)] hover:-translate-y-0.5",
+    "border border-[var(--color-coral)] text-[var(--color-coral)] bg-transparent hover:bg-[rgba(255,77,125,0.07)] hover:-translate-y-0.5",
   ghost:
     "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-2)]",
   whatsapp:
