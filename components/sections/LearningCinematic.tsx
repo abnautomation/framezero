@@ -137,41 +137,61 @@ function ProgressRail({ progress, total }: { progress: MotionValue<number>; tota
   );
 }
 
-export default function LearningCinematic() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const total = chapters.length;
-
-  // Reduced-motion / accessible fallback: a clean static grid
-  if (reduced) {
-    return (
-      <section className="section-py px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <p className="eyebrow text-[var(--color-coral)] mb-3 text-center">The curriculum</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center mb-12">
-            Five chapters, zero to creator
+/* Mobile / tablet / reduced-motion: clean animated reveal — no scroll-pinning,
+   no overlap, reliable on every screen size. */
+function MobileChapters() {
+  return (
+    <section className="section-py px-4 sm:px-6 bg-[var(--color-surface-2)]">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="eyebrow text-[var(--color-coral)] mb-2">The curriculum</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+            Five chapters, zero to <span className="gradient-text">creator</span>
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {chapters.map((ch) => (
-              <Link key={ch.href} href={ch.href}
-                className="rounded-2xl p-6 bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]">
-                <p className="eyebrow mb-2" style={{ color: ch.accent }}>Chapter {ch.n}</p>
-                <h3 className="font-bold text-lg mb-2">{ch.title}</h3>
-                <p className="text-sm text-[var(--color-text-secondary)]">{ch.body}</p>
-              </Link>
-            ))}
-          </div>
         </div>
-      </section>
-    );
-  }
+        <div className="space-y-6">
+          {chapters.map((ch, i) => (
+            <motion.div
+              key={ch.n}
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Link
+                href={ch.href}
+                className="block rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
+              >
+                <div className="aspect-[16/10] w-full">
+                  <ChapterScene variant={ch.variant} />
+                </div>
+                <div className="p-6">
+                  <p className="eyebrow mb-2" style={{ color: ch.accent }}>
+                    Chapter {ch.n} · {ch.eyebrow}
+                  </p>
+                  <h3 className="text-2xl font-bold mb-2">{ch.title}</h3>
+                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{ch.body}</p>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
+                    Read this chapter <ArrowRight size={15} />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PinnedChapters({ total }: { total: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   return (
     <section ref={ref} style={{ height: `${total * 100}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center bg-[var(--color-surface-2)]">
-        {/* heading watermark */}
-        <div className="absolute top-10 inset-x-0 text-center z-10 px-4">
+        <div className="absolute top-24 inset-x-0 text-center z-10 px-4">
           <p className="eyebrow text-[var(--color-coral)]">The curriculum · scroll to play</p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mt-1">
             Five chapters, zero to <span className="gradient-text">creator</span>
@@ -180,20 +200,39 @@ export default function LearningCinematic() {
 
         <ProgressRail progress={scrollYProgress} total={total} />
 
-        <div className="relative w-full max-w-6xl mx-auto px-6 sm:px-16 h-[62vh]">
+        <div className="relative w-full max-w-6xl mx-auto px-6 sm:px-16 h-[60vh] mt-10">
           {chapters.map((ch, i) => (
             <Chapter key={ch.n} progress={scrollYProgress} index={i} total={total} data={ch} />
           ))}
         </div>
 
-        {/* bottom progress bar */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-48 h-1 rounded-full bg-[var(--color-surface-3)] overflow-hidden">
-          <motion.div style={{ scaleX: scrollYProgress, transformOrigin: "left" }} className="h-full w-full"
-            >
+          <motion.div style={{ scaleX: scrollYProgress, transformOrigin: "left" }} className="h-full w-full">
             <div className="h-full w-full" style={{ background: "var(--gradient-primary)" }} />
           </motion.div>
         </div>
       </div>
     </section>
+  );
+}
+
+export default function LearningCinematic() {
+  const reduced = useReducedMotion();
+  const total = chapters.length;
+
+  // Reduced motion → reliable reveal grid everywhere.
+  if (reduced) return <MobileChapters />;
+
+  return (
+    <>
+      {/* Mobile & tablet: clean reveal (no scroll-pinning) */}
+      <div className="lg:hidden">
+        <MobileChapters />
+      </div>
+      {/* Desktop: cinematic pinned sequence */}
+      <div className="hidden lg:block">
+        <PinnedChapters total={total} />
+      </div>
+    </>
   );
 }

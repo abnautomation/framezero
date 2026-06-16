@@ -101,43 +101,68 @@ function Persona({
   );
 }
 
-export default function AudienceCinematic() {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const total = personas.length;
-
-  if (reduced) {
-    return (
-      <section className="section-py px-4 sm:px-6 bg-[var(--color-surface-2)]">
-        <div className="max-w-5xl mx-auto">
-          <p className="eyebrow text-[var(--color-coral)] mb-3 text-center">Built for your imagination</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-center mb-12">Whoever you are, this is your starting line</h2>
-          <div className="grid sm:grid-cols-2 gap-5">
-            {personas.map((p) => (
-              <Link key={p.cta.href} href={p.cta.href} className="rounded-2xl p-6 bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]">
-                <p className="font-bold mb-2">{p.label}</p>
-                <p className="text-sm text-[var(--color-text-secondary)]">{p.body}</p>
-              </Link>
-            ))}
-          </div>
+/* Mobile / tablet / reduced-motion: clean animated reveal — no scroll-pinning. */
+function MobilePersonas() {
+  return (
+    <section className="section-py px-4 sm:px-6 bg-[var(--color-surface-2)]">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="eyebrow text-[var(--color-coral)] mb-2">Built for your imagination</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+            Whoever you are, this is your <span className="gradient-text">starting line</span>
+          </h2>
         </div>
-      </section>
-    );
-  }
+        <div className="space-y-6">
+          {personas.map((p, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Link
+                href={p.cta.href}
+                className="block rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
+              >
+                <div className="aspect-[16/10] w-full">
+                  <ChapterScene variant={p.variant} />
+                </div>
+                <div className="p-6">
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-bold mb-3" style={{ background: p.grad }}>
+                    {p.icon} {p.label}
+                  </span>
+                  <h3 className="text-2xl font-bold mb-2 leading-tight">{p.headline}</h3>
+                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{p.body}</p>
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
+                    {p.cta.label} <ArrowRight size={15} />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PinnedPersonas({ total }: { total: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
   return (
     <section ref={ref} style={{ height: `${total * 100}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center px-6 sm:px-16"
         style={{ background: "var(--gradient-hero)" }}>
-        <div className="absolute top-10 inset-x-0 text-center z-10 px-4">
+        <div className="absolute top-24 inset-x-0 text-center z-10 px-4">
           <p className="eyebrow text-[var(--color-coral)]">Built for your imagination</p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mt-1">
             Whoever you are, this is your <span className="gradient-text">starting line</span>
           </h2>
         </div>
 
-        <div className="relative w-full h-[62vh] mt-8">
+        <div className="relative w-full h-[60vh] mt-10">
           {personas.map((p, i) => (
             <Persona key={i} progress={scrollYProgress} index={i} total={total} data={p} />
           ))}
@@ -150,5 +175,23 @@ export default function AudienceCinematic() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function AudienceCinematic() {
+  const reduced = useReducedMotion();
+  const total = personas.length;
+
+  if (reduced) return <MobilePersonas />;
+
+  return (
+    <>
+      <div className="lg:hidden">
+        <MobilePersonas />
+      </div>
+      <div className="hidden lg:block">
+        <PinnedPersonas total={total} />
+      </div>
+    </>
   );
 }
