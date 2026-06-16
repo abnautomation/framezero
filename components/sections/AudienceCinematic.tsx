@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { User, Film, PlayCircle, Briefcase, ArrowRight } from "lucide-react";
 import { ChapterScene } from "@/components/art/Scenes";
+import SnapCarousel from "@/components/ui/SnapCarousel";
 
 const personas = [
   {
@@ -101,48 +102,40 @@ function Persona({
   );
 }
 
-/* Mobile / tablet / reduced-motion: clean animated reveal — no scroll-pinning. */
+/* Mobile / tablet / reduced-motion: swipeable film-reel carousel. */
 function MobilePersonas() {
   return (
-    <section className="section-py px-4 sm:px-6 bg-[var(--color-surface-2)]">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-10">
-          <p className="eyebrow text-[var(--color-coral)] mb-2">Built for your imagination</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Whoever you are, this is your <span className="gradient-text">starting line</span>
-          </h2>
-        </div>
-        <div className="space-y-6">
-          {personas.map((p, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 36 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Link
-                href={p.cta.href}
-                className="block rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
-              >
-                <div className="aspect-[16/10] w-full">
-                  <ChapterScene variant={p.variant} />
-                </div>
-                <div className="p-6">
-                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-xs font-bold mb-3" style={{ background: p.grad }}>
-                    {p.icon} {p.label}
-                  </span>
-                  <h3 className="text-2xl font-bold mb-2 leading-tight">{p.headline}</h3>
-                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{p.body}</p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
-                    {p.cta.label} <ArrowRight size={15} />
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+    <section className="section-py px-4 bg-[var(--color-surface-2)] overflow-hidden">
+      <div className="text-center mb-8 px-4">
+        <p className="eyebrow text-[var(--color-coral)] mb-2">Built for your imagination · swipe</p>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+          Whoever you are, this is your <span className="gradient-text">starting line</span>
+        </h2>
       </div>
+
+      <SnapCarousel
+        items={personas.map((p, i) => (
+          <Link
+            key={i}
+            href={p.cta.href}
+            className="block h-full rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
+          >
+            <div className="relative aspect-[5/4] w-full">
+              <ChapterScene variant={p.variant} />
+              <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-white text-xs font-bold" style={{ background: p.grad }}>
+                {p.icon} {p.label}
+              </span>
+            </div>
+            <div className="p-5">
+              <h3 className="text-xl font-bold mb-2 leading-tight">{p.headline}</h3>
+              <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{p.body}</p>
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
+                {p.cta.label} <ArrowRight size={15} />
+              </span>
+            </div>
+          </Link>
+        ))}
+      />
     </section>
   );
 }

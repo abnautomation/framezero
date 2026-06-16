@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ChapterScene } from "@/components/art/Scenes";
+import SnapCarousel from "@/components/ui/SnapCarousel";
 
 const chapters = [
   {
@@ -137,49 +138,42 @@ function ProgressRail({ progress, total }: { progress: MotionValue<number>; tota
   );
 }
 
-/* Mobile / tablet / reduced-motion: clean animated reveal — no scroll-pinning,
-   no overlap, reliable on every screen size. */
+/* Mobile / tablet / reduced-motion: a swipeable film-reel carousel —
+   the fun, reliable equivalent of the desktop pinned sequence. */
 function MobileChapters() {
   return (
-    <section className="section-py px-4 sm:px-6 bg-[var(--color-surface-2)]">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-10">
-          <p className="eyebrow text-[var(--color-coral)] mb-2">The curriculum</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Five chapters, zero to <span className="gradient-text">creator</span>
-          </h2>
-        </div>
-        <div className="space-y-6">
-          {chapters.map((ch, i) => (
-            <motion.div
-              key={ch.n}
-              initial={{ opacity: 0, y: 36 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Link
-                href={ch.href}
-                className="block rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
-              >
-                <div className="aspect-[16/10] w-full">
-                  <ChapterScene variant={ch.variant} />
-                </div>
-                <div className="p-6">
-                  <p className="eyebrow mb-2" style={{ color: ch.accent }}>
-                    Chapter {ch.n} · {ch.eyebrow}
-                  </p>
-                  <h3 className="text-2xl font-bold mb-2">{ch.title}</h3>
-                  <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{ch.body}</p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
-                    Read this chapter <ArrowRight size={15} />
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+    <section className="section-py px-4 bg-[var(--color-surface-2)] overflow-hidden">
+      <div className="text-center mb-8 px-4">
+        <p className="eyebrow text-[var(--color-coral)] mb-2">The curriculum · swipe to explore</p>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+          Five chapters, zero to <span className="gradient-text">creator</span>
+        </h2>
       </div>
+
+      <SnapCarousel
+        items={chapters.map((ch) => (
+          <Link
+            key={ch.n}
+            href={ch.href}
+            className="block h-full rounded-3xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
+          >
+            <div className="relative aspect-[5/4] w-full">
+              <ChapterScene variant={ch.variant} />
+              <span className="absolute top-3 left-3 glass rounded-full px-3 py-1 text-xs font-bold" style={{ color: ch.accent }}>
+                Chapter {ch.n}
+              </span>
+            </div>
+            <div className="p-5">
+              <p className="eyebrow mb-1.5" style={{ color: ch.accent }}>{ch.eyebrow}</p>
+              <h3 className="text-xl font-bold mb-2">{ch.title}</h3>
+              <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">{ch.body}</p>
+              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-coral)]">
+                Read this chapter <ArrowRight size={15} />
+              </span>
+            </div>
+          </Link>
+        ))}
+      />
     </section>
   );
 }
