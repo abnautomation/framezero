@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import WorkflowJourney from "@/components/sections/WorkflowJourney";
 import PageHero from "@/components/layout/PageHero";
+import SyntxSpotlight from "@/components/ui/SyntxSpotlight";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
@@ -27,6 +28,11 @@ export default function WorkflowPage() {
       </PageHero>
 
       <WorkflowJourney />
+
+      {/* All-in-one shortcut */}
+      <div className="pb-16">
+        <SyntxSpotlight />
+      </div>
 
       {/* Checklist lead magnet */}
       <section className="px-4 sm:px-6 pb-16">

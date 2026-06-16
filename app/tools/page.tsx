@@ -4,6 +4,7 @@ import { Sparkles } from "lucide-react";
 import PageHero from "@/components/layout/PageHero";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 import ToolCard from "@/components/ui/ToolCard";
+import SyntxSpotlight from "@/components/ui/SyntxSpotlight";
 
 export const metadata: Metadata = {
   title: "Best AI Animation Tools — Beginner-Friendly Directory",
@@ -87,6 +88,11 @@ export default function ToolsPage() {
           </div>
         </div>
       </section>
+
+      {/* Featured affiliate — all-in-one studio */}
+      <div className="pt-12">
+        <SyntxSpotlight />
+      </div>
 
       {/* Category sections */}
       <section className="section-py px-4 sm:px-6">

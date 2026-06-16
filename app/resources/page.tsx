@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Download, Lock, ExternalLink } from "lucide-react";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 import WhatsAppCTA from "@/components/ui/WhatsAppCTA";
+import SyntxSpotlight from "@/components/ui/SyntxSpotlight";
 
 export const metadata: Metadata = {
   title: "Free AI Animation Resources — Checklists, Prompt Packs & More",
@@ -128,6 +129,10 @@ export default function ResourcesPage() {
           </div>
         </div>
       </section>
+
+      <div className="pb-16">
+        <SyntxSpotlight />
+      </div>
 
       <WhatsAppCTA />
       <NewsletterSection />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import GuideLayout from "@/components/layout/GuideLayout";
 import Callout from "@/components/ui/Callout";
+import SyntxCallout from "@/components/ui/SyntxCallout";
 
 export const metadata: Metadata = {
   title: "AI Animation Basics — What Is AI Animation?",
@@ -87,6 +88,11 @@ export default function AIAnimationBasicsPage() {
         mathematically. You just need to know what each tool is good at — like
         knowing a hammer is for nails, even if you can&apos;t build a hammer.
       </Callout>
+
+      <SyntxCallout
+        heading="Want all of these in one place?"
+        text="Instead of signing up for separate image, video, and voice tools, SYNTX.AI bundles text, image, video, and voice AI into a single platform — a simple place to experiment while you learn the basics."
+      />
 
       <h2>How does AI turn a prompt into an animation?</h2>
       <p>Here&apos;s a simple version of what happens when you use an image AI:</p>

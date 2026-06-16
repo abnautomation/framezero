@@ -12,6 +12,8 @@ export const siteConfig = {
   YOUTUBE_URL: "https://www.youtube.com/@TheBabyGoals",
   INSTAGRAM_URL: "https://www.instagram.com/thebabygoals",
   OG_IMAGE: "/og-default.jpg",
+  // Affiliate — SYNTX.AI all-in-one AI studio (text/image/video/audio)
+  SYNTX_AFFILIATE_URL: "https://syntx.ai/welcome/qzrk7fUF",
 } as const;
 
 export const navLinks = [
