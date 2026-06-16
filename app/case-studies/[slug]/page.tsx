@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { caseStudies } from "../page";
+import { FilmFrame } from "@/components/art/Scenes";
 import WhatsAppCTA from "@/components/ui/WhatsAppCTA";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 import { Button } from "@/components/ui/Button";
@@ -95,8 +96,8 @@ export default async function CaseStudyPage({
 
       <article className="px-4 sm:px-6 py-14">
         <div className="max-w-2xl mx-auto space-y-10">
-          <div className="aspect-video bg-gradient-to-br from-[var(--color-indigo)] via-[var(--color-violet)] to-[var(--color-sky)] rounded-2xl flex items-center justify-center">
-            <span className="text-white/50">Video embed placeholder</span>
+          <div className="aspect-video rounded-2xl overflow-hidden">
+            <FilmFrame variant={1} label="Final result" />
           </div>
 
           <div>

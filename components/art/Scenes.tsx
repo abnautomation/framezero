@@ -90,6 +90,48 @@ export function StoryboardCard({ variant = 0 }: { variant?: number }) {
   );
 }
 
+/** A cinematic film frame with sprocket holes + a bespoke mini-scene.
+ *  Reusable cover for case studies, blog posts, and previews. */
+export function FilmFrame({ variant = 0, label }: { variant?: number; label?: string }) {
+  return (
+    <div className="relative w-full h-full">
+      <svg viewBox="0 0 480 300" className="w-full h-full" preserveAspectRatio="xMidYMid slice" aria-hidden>
+        <Defs />
+        <rect x="0" y="0" width="480" height="300" fill="#0c1f24" />
+        {/* sprocket strips */}
+        {[14, 278].map((y) => (
+          <g key={y}>
+            {Array.from({ length: 9 }).map((_, i) => (
+              <rect key={i} x={12 + i * 52} y={y} width="26" height="10" rx="2" fill="#1a3a40" />
+            ))}
+          </g>
+        ))}
+        {/* sky */}
+        <rect x="0" y="32" width="480" height="236" fill="url(#sky)" />
+        {/* moon */}
+        <circle cx={variant % 2 ? 110 : 380} cy="92" r="34" fill="url(#moon)" />
+        {/* hills */}
+        <path d="M0 210 Q120 160 240 200 T480 195 V268 H0 Z" fill="url(#teal)" opacity="0.5" />
+        <path d="M0 240 Q140 205 280 235 T480 232 V268 H0 Z" fill="#13313a" />
+        {/* subject */}
+        {variant % 3 === 0 && <circle cx="240" cy="180" r="34" fill="url(#ember)" />}
+        {variant % 3 === 1 && <path d="M240 140 L280 210 L200 210 Z" fill="url(#ember)" />}
+        {variant % 3 === 2 && <rect x="206" y="150" width="68" height="68" rx="12" fill="url(#ember)" />}
+        {/* fireflies */}
+        {[[80,150],[400,170],[330,120]].map(([x,y],i)=>(
+          <motion.circle key={i} cx={x} cy={y} r="3" fill="#7fe7d4"
+            animate={{ opacity:[0.3,1,0.3], y:[0,-8,0] }} transition={{ duration:3+i, repeat:Infinity }} />
+        ))}
+      </svg>
+      {label && (
+        <span className="absolute bottom-3 left-3 glass rounded-full px-3 py-1 text-[11px] font-semibold text-[var(--color-text-primary)]">
+          {label}
+        </span>
+      )}
+    </div>
+  );
+}
+
 /** Parametric chapter scene — distinct hand-built illustration per chapter. */
 export function ChapterScene({ variant }: { variant: number }) {
   return (

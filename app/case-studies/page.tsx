@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import PageHero from "@/components/layout/PageHero";
+import { FilmFrame } from "@/components/art/Scenes";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 
 export const metadata: Metadata = {
@@ -34,42 +36,35 @@ export const caseStudies = [
 export default function CaseStudiesPage() {
   return (
     <>
-      <section className="pt-32 pb-16 px-4 sm:px-6" style={{ background: "var(--gradient-hero)" }}>
-        <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-indigo)] mb-4">Real examples</p>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-            AI Animation Case Studies
-          </h1>
-          <p className="text-lg text-[var(--color-text-secondary)]">
-            Real projects with real results — and the exact step-by-step breakdown of how we made them.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Real examples"
+        title={<>Stories we made <span className="gradient-text-magic">from zero</span></>}
+        subtitle="Real projects with real results — and the exact step-by-step breakdown of how each one was made."
+      />
 
       <section className="section-py px-4 sm:px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-          {caseStudies.map((cs) => (
+          {caseStudies.map((cs, i) => (
             <Link
               key={cs.slug}
               href={`/case-studies/${cs.slug}`}
               className="group block rounded-2xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)] hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
-              <div className="aspect-video bg-gradient-to-br from-[var(--color-indigo)] via-[var(--color-violet)] to-[var(--color-sky)] flex items-center justify-center">
-                <span className="text-white/50 text-sm">Video / Preview</span>
+              <div className="aspect-video overflow-hidden">
+                <FilmFrame variant={i} label={cs.category} />
               </div>
               <div className="p-6">
-                <p className="text-xs font-semibold text-[var(--color-indigo)] mb-1">{cs.category}</p>
                 <p className="text-xs font-semibold text-[var(--color-mint)] mb-3">✓ {cs.result}</p>
-                <h2 className="font-bold text-xl mb-2 group-hover:text-[var(--color-indigo)] transition-colors">{cs.title}</h2>
+                <h2 className="font-bold text-xl mb-2 group-hover:text-[var(--color-coral)] transition-colors">{cs.title}</h2>
                 <p className="text-sm text-[var(--color-text-secondary)] mb-4 leading-relaxed">{cs.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {cs.tools.map((t) => (
-                    <span key={t} className="px-2 py-0.5 rounded-full bg-[rgba(91,91,214,0.08)] text-[var(--color-indigo)] text-xs font-semibold">
+                    <span key={t} className="px-2 py-0.5 rounded-full bg-[rgba(255,90,60,0.08)] text-[var(--color-coral)] text-xs font-semibold">
                       {t}
                     </span>
                   ))}
                 </div>
-                <p className="flex items-center gap-1 text-sm font-semibold text-[var(--color-indigo)]">
+                <p className="flex items-center gap-1 text-sm font-semibold text-[var(--color-coral)]">
                   Read case study <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </p>
               </div>

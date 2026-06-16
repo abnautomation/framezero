@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CountUp from "@/components/ui/CountUp";
+import { FilmFrame } from "@/components/art/Scenes";
 import { staggerContainer, fadeUp } from "@/lib/motion";
 
 const stats = [
@@ -68,7 +69,7 @@ export default function ProofSection() {
           viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
         >
-          {caseStudies.map((cs) => (
+          {caseStudies.map((cs, i) => (
             <motion.div
               key={cs.title}
               variants={fadeUp}
@@ -79,8 +80,8 @@ export default function ProofSection() {
                 href={cs.href}
                 className="group block rounded-2xl overflow-hidden bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)]"
               >
-                <div className="aspect-video bg-gradient-to-br from-[var(--color-indigo)] via-[var(--color-violet)] to-[var(--color-sky)] flex items-center justify-center">
-                  <span className="text-white/60 text-sm">Video preview</span>
+                <div className="aspect-video overflow-hidden">
+                  <FilmFrame variant={i} label="Watch the breakdown" />
                 </div>
                 <div className="p-6">
                   <p className="text-xs font-semibold text-[var(--color-mint)] mb-1">✓ {cs.result}</p>

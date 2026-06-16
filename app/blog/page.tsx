@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { blogPosts } from "@/lib/blog";
 import { formatDate } from "@/lib/utils";
+import { FilmFrame } from "@/components/art/Scenes";
 import NewsletterSection from "@/components/sections/NewsletterSection";
 
 export const metadata: Metadata = {
@@ -37,17 +38,17 @@ export default function BlogPage() {
             <div className="mb-12">
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-tertiary)] mb-5">Featured</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {featured.map((post) => (
+                {featured.map((post, i) => (
                   <Link
                     key={post.slug}
                     href={`/blog/${post.slug}`}
                     className="group block rounded-2xl p-6 bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)] hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
                   >
-                    <div className="aspect-video rounded-xl bg-gradient-to-br from-[var(--color-indigo)] to-[var(--color-violet)] mb-5 flex items-center justify-center">
-                      <span className="text-white/50 text-sm">Cover image</span>
+                    <div className="aspect-video rounded-xl overflow-hidden mb-5">
+                      <FilmFrame variant={i} label={post.category} />
                     </div>
-                    <p className="text-xs font-semibold text-[var(--color-indigo)] mb-2">{post.category}</p>
-                    <h2 className="font-bold text-lg mb-2 group-hover:text-[var(--color-indigo)] transition-colors">
+                    <p className="text-xs font-semibold text-[var(--color-coral)] mb-2">{post.category}</p>
+                    <h2 className="font-bold text-lg mb-2 group-hover:text-[var(--color-coral)] transition-colors">
                       {post.title}
                     </h2>
                     <p className="text-sm text-[var(--color-text-secondary)] mb-4 leading-relaxed line-clamp-2">

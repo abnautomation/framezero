@@ -102,11 +102,13 @@ export default function ServicesPage() {
     <>
       {/* Hero */}
       <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden" style={{ background: "var(--gradient-hero)" }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-indigo)] mb-4">Done-for-you service</p>
+        <div aria-hidden className="absolute -top-24 right-[12%] w-[420px] h-[420px] rounded-full blur-3xl opacity-50"
+          style={{ background: "radial-gradient(circle,#ff5a3c44,transparent 60%)" }} />
+        <div className="max-w-3xl mx-auto text-center relative">
+          <p className="eyebrow text-[var(--color-coral)] mb-4">Done-for-you service</p>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-5">
-            We create your AI animation first.{" "}
-            <span className="gradient-text">You only pay if you love it.</span>
+            We create your animation first.{" "}
+            <span className="gradient-text-magic">You only pay if you love it.</span>
           </h1>
           <p className="text-xl text-[var(--color-text-secondary)] mb-8 leading-relaxed">
             No upfront cost. No risk. Tell us your idea — we&apos;ll make a sample.
@@ -124,7 +126,7 @@ export default function ServicesPage() {
                 key={chip.text}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--color-surface-1)] border border-[var(--color-glass-border)] shadow-[var(--shadow-card)] text-sm font-medium"
               >
-                <span className="text-[var(--color-indigo)]">{chip.icon}</span>
+                <span className="text-[var(--color-coral)]">{chip.icon}</span>
                 {chip.text}
               </div>
             ))}
