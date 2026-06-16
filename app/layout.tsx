@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyWhatsApp from "@/components/ui/StickyWhatsApp";
 import CustomCursor from "@/components/ui/CustomCursor";
+import Atmosphere from "@/components/ui/Atmosphere";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 const inter = Inter({
@@ -47,6 +48,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-screen flex flex-col bg-[var(--color-surface-1)] text-[var(--color-text-primary)]">
         <ThemeProvider>
+          <Atmosphere />
           <div className="grain-overlay" aria-hidden />
           <CustomCursor />
           <Header />

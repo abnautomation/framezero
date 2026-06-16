@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/sections/HeroSection";
-import WhoIsThisFor from "@/components/sections/WhoIsThisFor";
-import WhatYoullLearn from "@/components/sections/WhatYoullLearn";
+import AudienceCinematic from "@/components/sections/AudienceCinematic";
+import LearningCinematic from "@/components/sections/LearningCinematic";
 import LearningPathPreview from "@/components/sections/LearningPathPreview";
 import HowItWorks from "@/components/sections/HowItWorks";
 import ProofSection from "@/components/sections/ProofSection";
@@ -21,8 +21,8 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <WhoIsThisFor />
-      <WhatYoullLearn />
+      <AudienceCinematic />
+      <LearningCinematic />
       <LearningPathPreview />
       <HowItWorks />
       <ProofSection />
